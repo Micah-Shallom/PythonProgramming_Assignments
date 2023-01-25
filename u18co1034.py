@@ -1,13 +1,15 @@
 import time , datetime
 database = []
 students_marked = 0
-registered_no_of_students = 10
-lecture_time = "10:00"
+registered_no_of_students = 5
+logging_status = True
+lecture_time = None
+lecture = None
 
 # Functions
 #################################################################################
 def welcome():
-    print("Welcome to Introduction to Computer Programming Lecture")
+    print(f"Welcome to Introduction to {lecture} Lecture")
     print(f"*****Lecture starts at {lecture_time}*****")
     print("Please Ensure you mark your attendance")
     print("Remain attentive to your lecturer and stay quiet")
@@ -48,37 +50,58 @@ def logic():
     else: 
         status = "Late"
         return False
+
 def lecturer_admin_dashboard():
-    print("I am a lecturer")
+    #the lecturer will set the name of the course and the time the class holds
+    global registered_no_of_students, lecture_time, lecture
+    
+    registered_no_of_students = 100
+    lecture_time = input("Enter the lecture time, Smaple, '10:00'")
+    lecture = input("Enter the title of the course: ")
+     
 #################################################################################
+    
 
 # Main Program Function
-def main(logging_status=False):
-    global students_marked, student
-    logging_status = False
+def main():
+    global students_marked, student, logging_status
     while students_marked < registered_no_of_students - 1:
         students_marked = len(database)
 
-        if logging_status == False:
-            user = input("Who are you logging in as??\n1.Lecturer\t2.Student\nPlease Enter either 1 or 2: ")
+        if logging_status:
+            user = int(input("Who are you logging in as??\n1.Lecturer\t2.Student\nPlease Enter either 1 or 2: "))
+
+            #to ensure that a lecturer must have entered his entry before a student can do his
+            
             if user == 1:
                 lecturer_admin_dashboard()
             elif user == 2:
-                main(True)
+                logging_status = False
+                
+                #a lecturer has to set lecture and lecture time before student entry
+                if lecture == None and lecture_time == None:
+                    sep()
+                    print("The lecturer hasnt set the lecture time and lecture course yet\nPlease wait for lecturer to do so")
+                    sep()
+                    logging_status = True
+                    time.sleep(2)
+                    main()
+                
 
-        if logging_status:
+        elif logging_status == False:
             sep()
             welcome()
             sep()
             load("Loading Program.")
             # time.sleep(5)
+            sep()
             student = input("Enter your name and registration number \n[Sample Entry: Micah Shallom Bawa,U18CO1034]\nPress 'q' to quit: ").split(',')
             if student[0] == "q":
                 print("Please dont skip the attendance.\n \
                     Enter your details this time")
                 sep()
                 time.sleep(2)
-                main(False)
+                main()
             sep()
             logic_result = logic()
             time.sleep(4)
@@ -92,12 +115,16 @@ def main(logging_status=False):
             print("NEXT STUDENT PLEASE⏭️⏭️⏭️⏭️⏭️")
             time.sleep(3)
             load("Initializing Next Student.")
+            sep()
+            sep()
+            sep()
+            sep()
             # print(logic_result)
             
-            # print(students_marked,database)
+            print(database)
 main()
 
 
 
 if __name__ == "__main__" :
-    pass
+    main()
