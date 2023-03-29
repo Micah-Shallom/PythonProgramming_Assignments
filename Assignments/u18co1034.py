@@ -56,7 +56,7 @@ def lecturer_admin_dashboard():
     global registered_no_of_students, lecture_time, lecture
     
     registered_no_of_students = 100
-    lecture_time = input("Enter the lecture time, Smaple, '10:00'")
+    lecture_time = input("Enter the lecture time, sample, '10:00'")
     lecture = input("Enter the title of the course: ")
      
 #################################################################################
@@ -122,7 +122,7 @@ def main():
             # print(logic_result)
             
             print(database)
-main()
+# main()
 
 
 
